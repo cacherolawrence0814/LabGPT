@@ -1,0 +1,25 @@
+# Hyper-V Templates
+Templates/
+*.vhdx
+
+# ISOs
+ISO/
+*.iso
+
+# Deployed Labs
+Labs/
+
+# Log*
+Logs/
+
+* Credentials
+Config/LabCred.ps1
+
+#*Temporary Files
+*.log**.tmp
+
+# VS*Code
+.vscode/
+
+# PowerShell Histor*
+*.ps*istory

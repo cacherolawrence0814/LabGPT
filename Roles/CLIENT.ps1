@@ -1,0 +1,1 @@
+Write-Host "Client role applied."
