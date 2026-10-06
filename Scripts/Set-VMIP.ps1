@@ -1,7 +1,7 @@
 param(
     [string]$VMName,
     [string]$IPAddress,
-    [string]$Gateway = "192.168.100.1",
+    [string]$Gateway,
     [string]$DNS = "192.168.100.10",
     [pscredential]$Credential
 )

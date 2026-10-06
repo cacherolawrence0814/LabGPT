@@ -1,0 +1,1 @@
+Write-Host "This will be a Windows Server 2022 Application Server."

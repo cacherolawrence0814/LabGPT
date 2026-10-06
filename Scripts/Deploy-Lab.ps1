@@ -14,6 +14,12 @@ Write-Host ""
 # Load Config
 $Config = Get-Content $ConfigFile | ConvertFrom-Json
 
+#Create Virtual Network
+& "C:\LabGPT\Scripts\Create-Vnet.ps1" `
+    -SwitchName $Config.Network.SwitchName `
+    -Subnet $Config.Network.Subnet `
+    -Gateway $Config.Network.Gateway
+
 foreach ($VM in $Config.Machines)
 {
     Write-Host ""
@@ -26,7 +32,8 @@ foreach ($VM in $Config.Machines)
     & "C:\LabGPT\Scripts\New-LabVM.ps1" `
         -VMName $VM.Name `
         -Template "C:\LabGPT\Templates\$($VM.Template)" `
-        -MemoryGB $VM.Memory
+        -MemoryGB $VM.Memory `
+        -SwitchName $Config.Network.SwitchName
 
     #
     # STEP 2 - WAIT FOR BOOT
@@ -109,6 +116,23 @@ foreach ($VM in $Config.Machines)
         & "C:\LabGPT\Roles\WDS.ps1" `
             -VMName $VM.Name `
             -Credential $LabCred
+        & "C:\LabGPT\Scripts\Join-Domain.ps1" `
+            -VMName $VM.Name `
+            -Domain $Config.Domain `
+            -LocalCredential $LabCred `
+            -DomainCredential $DomainLabCred
+    }
+
+    "APP"
+    {
+        & "C:\LabGPT\Roles\APP.ps1" `
+            -VMName $VM.Name `
+            -Credential $LabCred
+        & "C:\LabGPT\Scripts\Join-Domain.ps1" `
+            -VMName $VM.Name `
+            -Domain $Config.Domain `
+            -LocalCredential $LabCred `
+            -DomainCredential $DomainLabCred
     }
 }
 

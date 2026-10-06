@@ -37,12 +37,19 @@ CLIENT:
 - Template = WIN11.vhdx
 - Memory = 4
 
+APP:
+- Template = WIN2022.vhdx
+- Memory = 4
+
 Naming Convention:
 
 DC01
 CLIENT01
 CLIENT02
 CLIENT03
+APP01
+APP02
+APP03
 
 DC IP:
 192.168.100.10
