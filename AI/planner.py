@@ -16,6 +16,12 @@ Schema:
 {
   "LabName": "",
   "Domain": "",
+  "Network": 
+  {
+    "Subnet": "",
+    "Gateway": "",
+    "SwitchName": ""
+  },
   "Machines": [
     {
       "Name": "",
@@ -44,6 +50,7 @@ APP:
 Naming Convention:
 
 DC01
+DC02
 CLIENT01
 CLIENT02
 CLIENT03
@@ -85,7 +92,7 @@ try:
 
     plan = json.loads(json_text)
 
-    required = ["LabName", "Domain", "Machines"]
+    required = ["LabName", "Network", "Domain", "Machines"]
 
     for field in required:
         if field not in plan:

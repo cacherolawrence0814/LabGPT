@@ -1,0 +1,46 @@
+{
+    "LabName": "TEST-LABv1",
+    "Domain": "LAB.local",
+    "Network": {
+        "Subnet": "192.168.100.0/24",
+        "Gateway": "192.168.100.1",
+        "SwitchName": "vSwitch_Labv1"
+    },
+    "Machines": [
+        {
+            "Name": "DC01",
+            "Role": "DC",
+            "Template": "WIN2022.vhdx",
+            "Memory": 4,
+            "IP": "192.168.100.10"
+        },
+        {
+            "Name": "APP01",
+            "Role": "APP",
+            "Template": "WIN2022.vhdx",
+            "Memory": 4,
+            "IP": "192.168.100.20"
+        },
+        {
+            "Name": "APP02",
+            "Role": "APP",
+            "Template": "WIN2022.vhdx",
+            "Memory": 4,
+            "IP": "192.168.100.21"
+        },
+        {
+            "Name": "APP03",
+            "Role": "APP",
+            "Template": "WIN2022.vhdx",
+            "Memory": 4,
+            "IP": "192.168.100.22"
+        },
+        {
+            "Name": "CLIENT01",
+            "Role": "CLIENT",
+            "Template": "WIN11.vhdx",
+            "Memory": 4,
+            "IP": "192.168.100.23"
+        }
+    ]
+}
