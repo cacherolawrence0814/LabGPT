@@ -1,6 +1,6 @@
 param(
     [string]$VMName,
-    [string]$DomainName,
+    [string]$Domain,
     [pscredential]$Credential
 )
 
@@ -23,4 +23,4 @@ Invoke-Command `
             -Force
 
     } `
-    -ArgumentList $DomainName
+    -ArgumentList $Domain

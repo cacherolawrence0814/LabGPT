@@ -65,21 +65,31 @@ foreach ($VM in $Config.Machines)
             -IPAddress $VM.IP `
             -Credential $LabCred
     }
-
-    Write-Host ""
-    Write-Host "$($VM.Name) completed."
-    Write-Host ""
-}
-#
+    #
     # STEP 7 - ASSIGN ROLE
     #
-switch($VM.Role)
-{
-    "DC"
+    switch($VM.Role)
     {
+     "DC"
+      {
         & "C:\LabGPT\Roles\DC.ps1" `
             -VMName $VM.Name `
             -Credential $LabCred
+            #
+            # STEP 7.1 - PROMOTE DC
+            #
+            & "C:\LabGPT\Roles\Promote-DC.ps1" `
+                -VMName $VM.Name `
+                -Domain $Config.Domain `
+                -Credential $LabCred
+            # Load Credentials
+            #   . "C:\LabGPT\Config\DomainLabCred.ps1"            
+            #
+            # STEP 7.2 - WAIT AFTER REBOOT
+            #
+           # & "C:\LabGPT\Scripts\Wait-VMReady.ps1" `
+            #     -VMName $VM.Name `
+              #   -Credential $DomainLabCred
     }
 
     "CLIENT"
@@ -87,6 +97,11 @@ switch($VM.Role)
         & "C:\LabGPT\Roles\CLIENT.ps1" `
             -VMName $VM.Name `
             -Credential $LabCred
+        & "C:\LabGPT\Scripts\Join-Domain.ps1" `
+            -VMName $VM.Name `
+            -Domain $Config.Domain `
+            -LocalCredential $LabCred `
+            -DomainCredential $DomainLabCred
     }
 
     "WDS"
@@ -96,6 +111,12 @@ switch($VM.Role)
             -Credential $LabCred
     }
 }
+
+    Write-Host ""
+    Write-Host "$($VM.Name) completed."
+    Write-Host ""
+}
+
 
 Write-Host ""
 Write-Host "================================="

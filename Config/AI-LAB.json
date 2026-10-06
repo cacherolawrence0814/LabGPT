@@ -1,0 +1,27 @@
+{
+    "LabName": "Domain Test Lab",
+    "Domain": "testai123.local",
+    "Machines": [
+        {
+            "Name": "DC01",
+            "Role": "DC",
+            "Template": "WIN2022.vhdx",
+            "Memory": 4,
+            "IP": "192.168.100.10"
+        },
+        {
+            "Name": "CLIENT01",
+            "Role": "CLIENT",
+            "Template": "WIN11.vhdx",
+            "Memory": 4,
+            "IP": "192.168.100.20"
+        },
+        {
+            "Name": "CLIENT02",
+            "Role": "CLIENT",
+            "Template": "WIN11.vhdx",
+            "Memory": 4,
+            "IP": "192.168.100.21"
+        }
+    ]
+}

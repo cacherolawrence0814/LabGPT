@@ -14,6 +14,13 @@
       "IP":"192.168.100.10",
       "Template":"WIN2022.vhdx",
       "Memory":4
+    },
+    {
+      "Name":"CLIENT01",
+      "Role":"CLIENT",
+      "IP":"192.168.100.20",
+      "Template":"WIN11.vhdx",
+      "Memory":4
     }
   ]
 }
