@@ -4,8 +4,8 @@ param(
 
 $Config = Get-Content $ConfigFile | ConvertFrom-Json
 
-Write-Host "Removing $SwitchName..."
-Remove-VMSwitch -Name $SwitchName -Force -ErrorAction SilentlyContinue
+Write-Host "Removing $Config.Network.SwitchName   ..."
+Remove-VMSwitch -Name $Config.Network.SwitchName -Force -ErrorAction SilentlyContinue
 
 foreach ($VM in $Config.Machines)
 {
