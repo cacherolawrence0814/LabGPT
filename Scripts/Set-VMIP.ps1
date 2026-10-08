@@ -2,7 +2,7 @@ param(
     [string]$VMName,
     [string]$IPAddress,
     [string]$Gateway,
-    [string]$DNS = "192.168.100.10",
+    [string]$DNSservers,
     [pscredential]$Credential
 )
 
@@ -24,6 +24,5 @@ Invoke-Command `
         Set-DnsClientServerAddress `
             -InterfaceAlias $Nic `
             -ServerAddresses $DNS
-
     } `
-    -ArgumentList $IPAddress,$Gateway,$DNS
+    -ArgumentList $IPAddress,$Gateway,$DNSservers

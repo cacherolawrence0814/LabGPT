@@ -11,6 +11,9 @@ Write-Host ""
 # Load Credentials
 . "C:\LabGPT\Config\LabCred.ps1"
 
+ # Load Domain Credentials
+. "C:\LabGPT\Config\DomainLabCred.ps1"
+
 # Load Config
 $Config = Get-Content $ConfigFile | ConvertFrom-Json
 
@@ -70,9 +73,24 @@ foreach ($VM in $Config.Machines)
         & "C:\LabGPT\Scripts\Set-VMIP.ps1" `
             -VMName $VM.Name `
             -IPAddress $VM.IP `
+            -Gateway $Config.Network.Gateway `
+            -DNSServers $Config.Network.DNSServers `
             -Credential $LabCred
     }
+    Write-Host "$($VM.IP) assigned to $($VM.Name)."
     #
+    # get ip
+        $NetworkInfo = & "C:\LabGPT\Scripts\GetIP.ps1" `
+         -VMName $VM.Name `
+         -Credential $LabCred
+            $NetworkInfo.IPAddress
+            $NetworkInfo.DNSServers
+    
+    Write-Host "$($NetworkInfo.IPAddress) assigned to $($VM.Name)."
+    write-Host "$($NetworkInfo.DNSServers) assigned to $($VM.Name) DNS servers."
+
+    Write-Host "Assigning role $($VM.Role) to $($VM.Name)..."
+    
     # STEP 7 - ASSIGN ROLE
     #
     switch($VM.Role)
@@ -89,8 +107,8 @@ foreach ($VM in $Config.Machines)
                 -VMName $VM.Name `
                 -Domain $Config.Domain `
                 -Credential $LabCred
-            # Load Credentials
-            #   . "C:\LabGPT\Config\DomainLabCred.ps1"            
+
+
             #
             # STEP 7.2 - WAIT AFTER REBOOT
             #
@@ -98,6 +116,28 @@ foreach ($VM in $Config.Machines)
             #     -VMName $VM.Name `
               #   -Credential $DomainLabCred
     }
+
+    "ADC"
+      {
+        & "C:\LabGPT\Roles\DC.ps1" `
+            -VMName $VM.Name `
+            -Credential $LabCred
+            #
+            # STEP 7.1 - ADD DC
+            #
+            & "C:\LabGPT\Roles\Add-DC.ps1" `
+                -VMName $VM.Name `
+                -Domain $Config.Domain `
+                -Credential $LabCred `
+                -DomainCredential $DomainLabCred
+            #
+            # STEP 7.2 - WAIT AFTER REBOOT
+            #
+           # & "C:\LabGPT\Scripts\Wait-VMReady.ps1" `
+            #     -VMName $VM.Name `
+              #   -Credential $DomainLabCred
+    }
+
 
     "CLIENT"
     {
